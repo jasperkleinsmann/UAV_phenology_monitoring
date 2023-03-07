@@ -9,6 +9,7 @@ library(greenbrown)
 library(phenex)
 library(cowplot)
 library(ggpubr)
+library(dplyr)
 
 # Load the needed datasets
 source('6_CleanClassifiedCrowns.R')
@@ -172,9 +173,17 @@ write.csv(pheno, 'R_data/Output/Tables/Phenology.csv', row.names=F)
 # OR - adjust for visualisation
 pheno <- read.csv('R_data/Output/Tables/Phenology.csv')
 
+# Select only deciduous trees for plotting
+pheno <- pheno %>% 
+  filter(SpecieName %in% c('Silver Birch', 'Common Oak', 'American Oak', 'Common Beech'))
+
 # Plot the individual tree SOS and EOS distribution per VI
 source('10_Visualisation.R')
 tree_sos_eos_plot
+
+pdf('Figures/boxplot_all.pdf', width = 10, height = 7)
+tree_sos_eos_plot
+dev.off()
 ##################### END TREE LEVEL ANALYSIS ####################
 
 

@@ -1,77 +1,113 @@
+# Load libraries
+library(RColorBrewer)
+library(viridis)
+
 ########################## 1) Visualise SOS and EOS per tree
+# All ylim
+ylim_sos = c(100,350)
+ylim_eos = c(100,400)
+# Deciduous ylim
+ylim_sos = c(100,200)
+ylim_eos = c(100,400)
+
 # SOS
-ndvi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,NDVI.SOS), y=NDVI.SOS, col=SpecieName))+
+ndvi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,NDVI.SOS), y=NDVI.SOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,350)+
+  scale_fill_viridis(discrete=T)+
+  ylim(ylim_sos)+
   labs(title='Start of Season', subtitle =  'NDVI', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
         plot.title = element_text(color = "black", size = 12, face = "bold"),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-evi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,EVI.SOS, na.rm=T), y=EVI.SOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)
+evi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,EVI.SOS, na.rm=T), y=EVI.SOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,350)+
+  ylim(ylim_sos)+
   labs(title = ' ', subtitle =  'EVI2', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-osavi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,MCOSAVI.SOS, na.rm=T), y=MCOSAVI.SOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
+osavi.sos <- ggplot(pheno, aes(x=reorder(SpecieName,MCOSAVI.SOS, na.rm=T), y=MCOSAVI.SOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,350)+
+  ylim(ylim_sos)+
   labs(title = ' ', subtitle =  'OSAVI', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-cire.sos <- ggplot(pheno, aes(x=reorder(SpecieName,CIRE.SOS, na.rm=T), y=CIRE.SOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
+cire.sos <- ggplot(pheno, aes(x=reorder(SpecieName,CIRE.SOS, na.rm=T), y=CIRE.SOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,350)+
-  labs(title = ' ', subtitle =  'CIRE', y='DOY', fill='Test')+
+  ylim(ylim_sos)+
+  labs(title = ' ', subtitle =  'CIre', y='DOY')+
   theme(axis.title.x=element_blank(),
         plot.subtitle = element_text(color = "black", size=10, face='italic'),
         legend.title = element_blank(),
-        legend.position = c(-1,0.92),
-        legend.text = element_text(size = 8))+
+        legend.position = c(-1,0.92), #-1,0.92
+        legend.text = element_text(size = 8),
+        legend.direction="horizontal",
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
   guides(color = guide_legend(nrow = 1, byrow = TRUE))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
 
 # EOS
-ndvi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,NDVI.EOS, na.rm=T), y=NDVI.EOS, col=SpecieName))+
+ndvi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,NDVI.EOS, na.rm=T), y=NDVI.EOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,400)+
+  ylim(ylim_eos)+
   labs(title='End of Season', subtitle = 'NDVI',  y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
         plot.title = element_text(color = "black", size = 12, face = "bold"),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-evi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,EVI.EOS, na.rm=T), y=EVI.EOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
+evi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,EVI.EOS, na.rm=T), y=EVI.EOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,400)+
+  ylim(ylim_eos)+
   labs(title = ' ', subtitle = 'EVI2', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-osavi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,MCOSAVI.EOS, na.rm=T), y=MCOSAVI.EOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
+osavi.eos <- ggplot(pheno, aes(x=reorder(SpecieName,MCOSAVI.EOS, na.rm=T), y=MCOSAVI.EOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,400)+
+  ylim(ylim_eos)+
   labs(title = ' ', subtitle = 'OSAVI', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
-cire.eos <- ggplot(pheno, aes(x=reorder(SpecieName,CIRE.EOS, na.rm=T), y=CIRE.EOS, col=SpecieName))+
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
+cire.eos <- ggplot(pheno, aes(x=reorder(SpecieName,CIRE.EOS, na.rm=T), y=CIRE.EOS, fill=SpecieName))+
   geom_boxplot()+
-  #geom_jitter(width = 0.05, col='grey', fill='grey', alpha=0.2)+
-  ylim(100,400)+
-  labs(title = ' ', subtitle = 'CIRE', y='DOY')+
+  ylim(ylim_eos)+
+  labs(title = ' ', subtitle = 'CIre', y='DOY')+
   theme(legend.position = 'none', axis.title.x=element_blank(),
-        plot.subtitle = element_text(color = "black", size=10, face='italic'))+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black", fill="black", alpha=0.3)
+        plot.subtitle = element_text(color = "black", size=10, face='italic'),
+        panel.background = element_rect(fill='white', colour='black'),
+        panel.grid.major = element_line(colour = 'grey'),
+        panel.grid.minor.y = element_line(colour = 'grey'))+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="orange", fill="orange", alpha=0.5)+
+  scale_fill_viridis(discrete=T)
 
 
 # Combine the boxplots
@@ -572,4 +608,21 @@ rain <- ggplot(data=avg.m) +
 temp_rain_plot <- plot_grid(temp, rain)
 
 rm(temp, rain)
+
+
+########################## 4) Plot example double logistic curve
+dl_exmpl <- ndvi.plt %>% 
+  filter(Specie == 4) %>% 
+  group_by(DOY) %>% 
+  summarize(ndvi=mean(value,na.rm=T))
+
+dl_pred <- FitDoubleLogBeck(dl_exmpl$ndvi, doy, tout=doy, weighting=T, ninit=300,plot=T)
+dl_pred_int <- data.frame(approx(dl_pred$predicted))
+
+dl_pred_int <- rbind(data.frame(x=0,y=dl_pred_int$y[1]), dl_pred_int)
+dl_pred_int <- rbind(dl_pred_int, data.frame(x=15,y=dl_pred_int$y[51]))
+
+png('Figures/dl_example.png', width = 1000, height = 800)
+plot(x = dl_pred_int$x, y = dl_pred_int$y, type='l', xaxt='n',yaxt='n', xlab='',ylab='', ylim=c(0.2,1), lwd=2)
+dev.off()
 
