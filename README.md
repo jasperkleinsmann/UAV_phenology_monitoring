@@ -1,5 +1,4 @@
 # Monitoring Individual Tree Phenology in a Multi-Species Forest using High Resolution UAV Images
 
-Repository containing all scripts to monitor seasonal phenology in a multi-species forest.
+Repository containing all scripts developed for the study: **"Monitoring Individual Tree Phenology in a Multi-Species Forest using High Resolution UAV Images"**
 
-The fourteen orthomosaics used for the analysis can be found here: link to data
