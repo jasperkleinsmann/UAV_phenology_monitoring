@@ -5,12 +5,12 @@ library(RStoolbox)
 
 # The the file names
 file.names <- list.files(
-  path = "C:\\Users\\jaspe\\Documents\\Documenten\\School\\WUR\\Thesis\\Data\\Orthophotos\\MSP\\Georeferenced ortho's", 
+  path = "datasets\\data\\Georeferenced ortho's", 
   pattern = ".tif")
 
 # Create list with file paths
 file.paths <- list()
-paths <- paste0("C:\\Users\\jaspe\\Documents\\Documenten\\School\\WUR\\Thesis\\Data\\Orthophotos\\MSP\\Georeferenced ortho's\\", 
+paths <- paste0("datasets\\data\\Georeferenced ortho's", 
                file.names)
 for (i in 1:length(paths)){
   file.paths <- append(file.paths, paths[i])
@@ -47,7 +47,7 @@ orthos.vi <- lapply(orthos.vi, round, 4) # round all pixels the same
 
 # Write prepared rasters to file
 for (i in 1:length(orthos.vi)){
-  name <- paste0("C:\\Users\\jaspe\\Documents\\Documenten\\School\\WUR\\Thesis\\Data\\Orthophotos\\MSP\\Reflectance ortho's\\", 
+  name <- paste0("datasets\\output\\Reflectance ortho's\\", 
                  file.names[i])
   writeRaster(orthos.vi[[i]], name, overwrite=T)
   print(i)

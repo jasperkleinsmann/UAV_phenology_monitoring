@@ -9,11 +9,11 @@ library(smoothr)
 
 
 # Import data
-crowns.raw <- st_read(dsn='R_data/Output/Shapefiles', layer = 'tcrowns_v7')
-ttops <- st_read(dsn='R_data/Output/Shapefiles', layer = 'ttops_V0.5_((x^2)_0.025)III')
+crowns.raw <- st_read(dsn='datasets/output/vector_data', layer = 'tree_crowns')
+ttops <- st_read(dsn='datasets/output/vector_data', layer = 'tree_tops')
 
-msp <- rast('R_data/Ortho_gr_1004avg.tif')
-chm <- rast("R_data/Output/msp.chm.tif")
+msp <- rast('datasets/output/1004_seg_ortho')
+chm <- rast("datasets/output/msp.chm.tif")
 
 
 # 1) crowns without tree top excluded
@@ -47,7 +47,7 @@ crowns_filtered$Comment <- NA
 
 
 # Export the filled crowns (used for the validation process)
-st_write(crowns.fill, dsn='R_data/Output/Shapefiles', layer='crowns.fill', driver='ESRI Shapefile')
+st_write(crowns.fill, dsn='datasets/output/vector_data', layer='crowns.fill', driver='ESRI Shapefile')
 # Export the filled and eroded crowns (used for further analysis)
-st_write(crowns_filtered, dsn='R_data/Output/Shapefiles', layer='crowns_filtered', driver='ESRI Shapefile')
+st_write(crowns_filtered, dsn='datasets/output/vector_data', layer='crowns_filtered', driver='ESRI Shapefile')
 

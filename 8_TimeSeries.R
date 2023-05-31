@@ -310,5 +310,9 @@ for (i in 1:length(tree.nr)){
 # Plot on species level
 source('10_Visualisation.R')
 per_species_vi_plot
+
+pdf('Figures/VI_curves.pdf', width = 13, height = 13)
+per_species_vi_plot
+dev.off()
 ##################### END SPECIES LEVEL ANALYSIS ####################
 

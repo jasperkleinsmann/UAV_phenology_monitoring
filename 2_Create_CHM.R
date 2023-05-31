@@ -8,11 +8,11 @@ library(dplyr)
 library(lidR)
 
 # Import data
-dtm <- rast("AHN data/M_39FN2.TIF")
+dtm <- rast("datasets/data/lidar_dtm.TIF")
 
-msp.dem <- rast("R_data/DEM_gr_1004.tif")
+msp.dem <- rast("datasets/data/DEM_gr_1004.tif")
 
-takeoff <- st_read(dsn='R_data/Shapefiles', layer = 'LandingPnt')
+takeoff <- st_read(dsn='datasets/data/vector_data', layer = 'LandingPnt')
 takeoff <- st_zm(takeoff)
 
 # crop the DTM study area
@@ -64,18 +64,7 @@ dems <- c(dems, msp.chm)
 
 # Save raster stack
 names(dems)
-x <- writeRaster(dems, paste0('R_data/Output/', names(dems), '.tif'), overwrite=TRUE, filetype="GTiff")
+x <- writeRaster(dems, paste0('datasets/output/', names(dems), '.tif'), overwrite=TRUE, filetype="GTiff")
 
 # Import finsihed chm raster
-chm <- rast("R_data/Output/msp.chm.tif")
-
-
-# Visualise the CHM values
-c <- as.data.frame(chm)
-ggplot(c, aes(x=msp.chm)) + 
-  geom_histogram(aes(y=..density..), colour='black', fill='white')+
-  geom_density(alpha=.2, fill='red')+
-  labs(x='CHM (m)')+
-  geom_vline(xintercept = 8, colour = "black", linetype="dotted")
-
-
+chm <- rast("datasets/output/msp.chm.tif")
