@@ -3,10 +3,12 @@ library(sf)
 
 # Script to clean the segmented tree crown polygons after the manual tree classification
 
-# Import crown data
-crowns.raw <- st_read(dsn='R_data/Shapefiles', layer = 'crowns_classified')
+#### Import crown data
+crowns.raw <- st_read(dsn='datasets/data/vector_data', layer = 'crowns_classified')
 crowns.raw$Include <- 0
 
+
+### Clean the classified crown data
 # Only include species code that actually indicate trees (<10) 
 crowns.raw <- subset(crowns.raw, Specie<10)
 # Code crowns with multiple species and/or too much ground in it & exclude them
@@ -43,7 +45,8 @@ for (i in 1:length(names)){
   crowns$SpecieName[crowns$Specie==specie.nr[i]] <- names[i]
 }
 
-crowns.vec <- vect(crowns)
+# Write the cleaned classified crown polygon as shapefile
+st_write(crowns, dsn='datasets/output/vector_data', layer='crowns.final', driver='ESRI Shapefile')
 
 
 rm(specie.nr)

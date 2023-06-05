@@ -1,7 +1,8 @@
 
-
 library(terra)
 library(RStoolbox)
+
+# Script to convert the georeference ortho's into masked reflectance orthos
 
 # The the file names
 file.names <- list.files(

@@ -11,11 +11,14 @@ library(cowplot)
 library(ggpubr)
 library(dplyr)
 
+### IMPORT data
 # Load the needed datasets
-source('6_CleanClassifiedCrowns.R')
-source('7.1_LoadOrthophotos.R')
-source ('8.1_LoadReflectanceValues.R')
-source('8.2_Calc_VIs.R')
+source('7a_LoadOrthophotos.R')
+source ('8a_LoadReflectanceValues.R')
+source('8b_Calc_VIs.R')
+# Final cleaned crowns
+crowns <- st_read(dsn='datasets/output/vector_data', layer = 'crowns.final')
+crowns.vec <- vect(crowns)
 
 # DOY values of flights
 doy <- c(110, 123, 130, 138, 145, 151, 158, 172, 179, 207, 228, 277, 309, 347)
@@ -169,19 +172,22 @@ for (i in 2:ncol(VI.df)){
 pheno <- cbind(pheno, Index=seq(seq(1:nrow(crowns))))
 
 # Write results
-write.csv(pheno, 'R_data/Output/Tables/Phenology.csv', row.names=F)
-# OR - adjust for visualisation
-pheno <- read.csv('R_data/Output/Tables/Phenology.csv')
+write.csv(pheno, 'datasets/output/Phenology.csv', row.names=F)
+
+
+### VISUALISE 
+# Import
+pheno <- read.csv('datasets/output/Phenology.csv')
 
 # Select only deciduous trees for plotting
 pheno <- pheno %>% 
   filter(SpecieName %in% c('Silver Birch', 'Common Oak', 'American Oak', 'Common Beech'))
 
 # Plot the individual tree SOS and EOS distribution per VI
-source('10_Visualisation.R')
+source('9_Visualisation.R')
 tree_sos_eos_plot
 
-pdf('Figures/boxplot_all.pdf', width = 10, height = 7)
+pdf('figures/boxplot_all.pdf', width = 10, height = 7)
 tree_sos_eos_plot
 dev.off()
 ##################### END TREE LEVEL ANALYSIS ####################
@@ -307,11 +313,11 @@ for (i in 1:length(tree.nr)){
   obs$Observations[i] <- n.species
 }
 
-# Plot on species level
-source('10_Visualisation.R')
+### VISUALISE
+source('9_Visualisation.R')
 per_species_vi_plot
 
-pdf('Figures/VI_curves.pdf', width = 13, height = 13)
+pdf('figures/VI_curves.pdf', width = 13, height = 13)
 per_species_vi_plot
 dev.off()
 ##################### END SPECIES LEVEL ANALYSIS ####################

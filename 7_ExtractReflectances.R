@@ -3,11 +3,15 @@ library(sf)
 library(raster)
 library(terra)
 
-# Import 
-source('6_CleanClassifiedCrowns.R') # cleaned classified crowns
-source('7.1_LoadOrthophotos.R') # reflectance orthophotos
+### Import 
+# Reflectance orthophotos
+source('7a_LoadOrthophotos.R')
+# Final cleaned crowns
+crowns <- st_read(dsn='datasets/output/vector_data', layer = 'crowns.final')
+crowns.vec <- vect(crowns)
 
 
+####################################### Start extraction
 # Extract all reflectance for all tree crowns in all orthophotos
 msp.ts <- lapply(orthos, extract, crowns.vec)
 
@@ -22,7 +26,7 @@ perc.80th <- function(x){
   return(means.80th)
 }
 
-# apply the function to all pixels in the crown polygons
+# Apply the function to all pixels in the crown polygons
 msp.80th <- list()
 for (o in 1:length(orthos)){
   df <- perc.80th(msp.ts[[o]][msp.ts[[o]]['ID']==1,])
@@ -39,6 +43,6 @@ for (o in 1:length(orthos)){
 
 # Save the multi-spectral reflectances after the 80th percentile selection for each tree
 for (i in 1:length(msp.80th)){
-  write.csv(msp.80th[[i]], paste0('R_data/Output/Tables/MSP extracted/Percentile 80th/', i, '.csv'))
+  write.csv(msp.80th[[i]], paste0('datasets/output/time_series/', i, '.csv'))
   print(i)
 }
